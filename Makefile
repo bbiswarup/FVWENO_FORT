@@ -19,8 +19,12 @@ run: $(PROGRAM)
 
 $(PROGRAM): $(SRCS)
 	$(FC) $(FLFLAGS) -o $@ $^ $(LDFLAGS)
-initialcond.o: constants.o
+
+fvweno.o: EulerEqns.o param.o constants.o output.o
+output.o: param.o
 %.o: %.F90
 	$(FC) $(FCFLAGS) -o $@ $<
+merge:
+	@sh merge.sh
 clean:
-	rm -f $(PROGRAM) *.o *.mod
+	rm -f $(PROGRAM) *.o *.mod *.plt
